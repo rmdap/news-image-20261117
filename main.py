@@ -27,6 +27,14 @@ def main():
     tmp = OUT_DIR / ".entry.png.tmp"
     shutil.copyfile(src, tmp)
     os.replace(tmp, OUT_DIR / "entry.png")
+    # Verify the written file: it must be non-empty, and report its size.
+    # The bytes are the bundled file's, unchanged, so every run prints the
+    # same number.
+    written = OUT_DIR / "entry.png"
+    size = written.stat().st_size
+    if size == 0:
+        raise SystemExit("entry.png was written empty")
+    print(f"wrote {written} ({size} bytes)")
 
 
 if __name__ == "__main__":
